@@ -29,6 +29,15 @@ source ./.venv/bin/activate
 
 # 2) Install dependencies
 pip install -r requirements.txt
+
+# 3) Configure environment (optional)
+cp .env.example .env
+# Edit .env to your needs. Variables are read via pydantic-settings with the APP_ prefix.
+# Example overrides:
+#   APP_APP_NAME=My API
+#   APP_ENVIRONMENT=production
+#   APP_DEBUG=false
+#   APP_HOST=127.0.0.1
 ```
 
 ## Run
@@ -81,6 +90,7 @@ pytest -q
 
 ```text
 app/
+  core/settings.py  # Centralized settings using pydantic-settings (.env support)
   main.py            # FastAPI app, routes mounted, health endpoint
   routers/items.py   # Items router (CRUD endpoints)
   crud/items.py      # In-memory store and CRUD operations
@@ -88,6 +98,7 @@ app/
 
 requirements.txt     # App dependencies
 requirements-dev.txt # Dev/test-only dependencies
+.env.example         # Example environment variables file
 tests/
   test_items.py      # CRUD flow and health check tests
 ```
@@ -95,6 +106,5 @@ tests/
 ## Next steps
 
 - Swap in-memory store for a real database (SQLModel/SQLAlchemy) and repositories
-- Configuration via environment variables (pydantic BaseSettings / python-dotenv)
 - Add middlewares (CORS, logging), error handling, and authentication
 - Linting/formatting (ruff/black), pre-commit hooks
